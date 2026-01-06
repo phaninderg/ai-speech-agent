@@ -35,4 +35,4 @@ echo ""
 
 # Activate and run
 source venv/bin/activate
-python speech_agent.py "$@"
+python speech_agent_macos_say.py "$@"

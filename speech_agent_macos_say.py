@@ -20,8 +20,9 @@ from faster_whisper import WhisperModel
 class SpeechAgent:
     """Offline AI Speech Agent using Ollama and macOS native TTS"""
     
-    def __init__(self, model_name: str = "gemma3:4b", ollama_url: str = "http://localhost:11434",
-                 listen_timeout: int = 20, phrase_time_limit: int = 30, voice: str = "Samantha"):
+    def __init__(self, model_name: str = "llama3.1:8b", ollama_url: str = "http://localhost:11434",
+                 listen_timeout: int = 20, phrase_time_limit: int = 30, voice: str = "Samantha",
+                 pause_threshold: float = 2.0):
         """
         Initialize the speech agent
         
@@ -31,6 +32,7 @@ class SpeechAgent:
             listen_timeout: Seconds to wait for speech to start (default: 20)
             phrase_time_limit: Maximum seconds for a single phrase (default: 30)
             voice: macOS voice to use (default: Samantha)
+            pause_threshold: Seconds of silence before considering speech complete (default: 2.0)
         """
         self.model_name = model_name
         self.ollama_url = ollama_url
@@ -40,9 +42,11 @@ class SpeechAgent:
         # Listening configuration
         self.listen_timeout = listen_timeout
         self.phrase_time_limit = phrase_time_limit
+        self.pause_threshold = pause_threshold
         
         # Initialize speech recognition
         self.recognizer = sr.Recognizer()
+        self.recognizer.pause_threshold = pause_threshold  # Set custom pause threshold
         self.microphone = sr.Microphone()
 
         # Initialize Whisper model for offline speech recognition
@@ -272,7 +276,7 @@ If I say a trigger phrase like "Let's role-play" or "Let's practice a scenario,"
 def main():
     """Entry point for the application"""
     # Configuration
-    MODEL_NAME = "gemma3:4b"  # You can change this to any available Ollama model
+    MODEL_NAME = "llama3.1:8b"  # You can change this to any available Ollama model
     OLLAMA_URL = "http://localhost:11434"
     VOICE = "Samantha"  # macOS voice (try: say -v ? to see all voices)
     

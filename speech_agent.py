@@ -22,7 +22,7 @@ class SpeechAgent:
     """Offline AI Speech Agent using Ollama"""
     
     def __init__(self, model_name: str = "llama3.1:8b", ollama_url: str = "http://localhost:11434",
-                 listen_timeout: int = 20, phrase_time_limit: int = 30):
+                 listen_timeout: int = 20, phrase_time_limit: int = 30, pause_threshold: float = 2.0):
         """
         Initialize the speech agent
         
@@ -31,6 +31,7 @@ class SpeechAgent:
             ollama_url: Ollama API endpoint
             listen_timeout: Seconds to wait for speech to start (default: 20)
             phrase_time_limit: Maximum seconds for a single phrase (default: 30)
+            pause_threshold: Seconds of silence before considering speech complete (default: 2.0)
         """
         self.model_name = model_name
         self.ollama_url = ollama_url
@@ -39,9 +40,11 @@ class SpeechAgent:
         # Listening configuration
         self.listen_timeout = listen_timeout
         self.phrase_time_limit = phrase_time_limit
+        self.pause_threshold = pause_threshold
         
         # Initialize speech recognition
         self.recognizer = sr.Recognizer()
+        self.recognizer.pause_threshold = pause_threshold  # Set custom pause threshold
         self.microphone = sr.Microphone()
 
         # Initialize Whisper model for offline speech recognition
@@ -141,8 +144,8 @@ If I say a trigger phrase like "Let's role-play" or "Let's practice a scenario,"
     
     def listen(self) -> Optional[str]:
         """Listen to microphone and convert speech to text using Whisper"""
-        print(f"\n🎤 Listening... (speak now - you have up to {self.phrase_time_limit} seconds)")
-
+        print(f"\n🎤 Listening... (speak now - you have up to {self.phrase_time_limit} seconds, pauses up to {self.pause_threshold}s are OK)")
+        
         try:
             with self.microphone as source:
                 audio = self.recognizer.listen(source, timeout=self.listen_timeout, phrase_time_limit=self.phrase_time_limit)
