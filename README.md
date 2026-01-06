@@ -275,14 +275,8 @@ ai-speech-agent/
 ├── speech_agent_macos_say.py    # Offline version (macOS native TTS)
 ├── requirements.txt             # Python dependencies
 ├── start_agent.sh               # Launcher script
-├── run.sh                       # Quick launcher
-├── test_tts.py                  # TTS diagnostic tool
-├── PYTTSX3_MACOS_ISSUES.md      # Troubleshooting guide
-├── SOLUTION_SUMMARY.md          # Solution documentation
-├── TTS_MIGRATION.md             # Migration history
 ├── .gitignore                   # Git ignore rules
 ├── README.md                    # This file
-└── venv/                        # Python virtual environment
 ```
 
 ## 🔒 Privacy & Security
