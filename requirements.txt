@@ -1,0 +1,6 @@
+SpeechRecognition>=3.14.0  # Used for microphone handling
+faster-whisper>=1.0.0  # Offline speech recognition
+requests==2.31.0
+PyAudio==0.2.14
+gTTS==2.5.4  # Online text-to-speech
+pygame==2.6.1  # Audio playback
